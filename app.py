@@ -14,221 +14,348 @@ except ImportError:
 
 # Page configuration
 st.set_page_config(
-    page_title="Diabetes Prediction System",
-    page_icon="🏥",
+    page_title="DiabetesAI - Advanced Prediction System",
+    page_icon="🩺",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS with Dark Theme
+# Custom CSS with Enhanced Modern Theme
 st.markdown("""
     <style>
+    /* Fonts Import */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    
     /* Main App Styling */
     .stApp {
-        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1b2a 100%);
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
         background-attachment: fixed;
         color: #ffffff;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* Header Styling */
+    /* Header Styling with Enhanced Animation */
     .main-header {
-        font-size: 3.5rem;
-        font-weight: 800;
+        font-size: 4rem;
+        font-weight: 900;
         color: #ffffff;
         text-align: center;
-        margin-bottom: 2rem;
-        text-shadow: 0 0 30px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.5);
-        animation: glow 2s ease-in-out infinite alternate;
-        letter-spacing: 2px;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 3s ease infinite, float 3s ease-in-out infinite;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        position: relative;
+    }
+    
+    @keyframes gradient-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
     }
     
     @keyframes glow {
-        from { filter: drop-shadow(0 0 10px #3b82f6); }
-        to { filter: drop-shadow(0 0 20px #60a5fa); }
+        from { filter: drop-shadow(0 0 15px #667eea); }
+        to { filter: drop-shadow(0 0 30px #f093fb); }
     }
     
-    /* Subtitle */
+    /* Subtitle with Animation */
     .subtitle {
         text-align: center;
-        color: #93c5fd;
-        font-size: 1.3rem;
+        color: #c7d2fe;
+        font-size: 1.4rem;
         margin-bottom: 3rem;
-        font-weight: 400;
-        letter-spacing: 1px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        animation: fadeInUp 1s ease-out;
     }
     
-    /* Prediction Box Styling */
-    .prediction-box {
-        padding: 2.5rem;
-        border-radius: 25px;
-        margin: 2rem 0;
-        backdrop-filter: blur(15px);
-        box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.5);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        animation: slideIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    @keyframes slideIn {
-        from { 
+    @keyframes fadeInUp {
+        from {
             opacity: 0;
             transform: translateY(20px);
         }
-        to { 
+        to {
             opacity: 1;
             transform: translateY(0);
         }
     }
     
+    /* Prediction Box Styling with Enhanced Effects */
+    .prediction-box {
+        padding: 3rem;
+        border-radius: 30px;
+        margin: 2rem 0;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 60px 0 rgba(0, 0, 0, 0.7);
+        border: 3px solid rgba(255, 255, 255, 0.15);
+        animation: slideInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .prediction-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    @keyframes slideInScale {
+        from { 
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
     .diabetic {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.25) 100%);
-        border: 2px solid #ef4444;
-        box-shadow: 0 0 40px rgba(239, 68, 68, 0.4), inset 0 0 30px rgba(239, 68, 68, 0.1);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.3) 100%);
+        border: 3px solid #ef4444;
+        box-shadow: 0 0 50px rgba(239, 68, 68, 0.5), inset 0 0 40px rgba(239, 68, 68, 0.15);
     }
     
     .non-diabetic {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(22, 163, 74, 0.25) 100%);
-        border: 2px solid #22c55e;
-        box-shadow: 0 0 40px rgba(34, 197, 94, 0.4), inset 0 0 30px rgba(34, 197, 94, 0.1);
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.3) 100%);
+        border: 3px solid #22c55e;
+        box-shadow: 0 0 50px rgba(34, 197, 94, 0.5), inset 0 0 40px rgba(34, 197, 94, 0.15);
     }
     
     .info-text {
-        font-size: 1.2rem;
-        margin: 0.8rem 0;
+        font-size: 1.3rem;
+        margin: 1rem 0;
         color: #ffffff;
-        font-weight: 500;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
     }
     
-    /* Input Styling */
+    /* Enhanced Input Styling with Glassmorphism */
     .stNumberInput > div > div > input {
-        background-color: rgba(30, 41, 59, 0.95);
-        color: #ffffff;
-        border: 2px solid rgba(59, 130, 246, 0.5);
-        border-radius: 12px;
-        padding: 0.75rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
+        background: rgba(30, 41, 59, 0.6) !important;
+        color: #ffffff !important;
+        border: 2px solid rgba(102, 126, 234, 0.6) !important;
+        border-radius: 15px !important;
+        padding: 1rem !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+    
+    .stNumberInput > div > div > input:hover {
+        border-color: #667eea !important;
+        background: rgba(30, 41, 59, 0.8) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
     }
     
     .stNumberInput > div > div > input:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-        background-color: rgba(30, 41, 59, 1);
+        border-color: #667eea !important;
+        box-shadow: 0 0 25px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.3) !important;
+        background: rgba(30, 41, 59, 1) !important;
+        transform: scale(1.02);
     }
     
     .stNumberInput label {
-        color: #ffffff !important;
-        font-weight: 500;
+        color: #e0e7ff !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
-    /* Button Styling */
+    /* Enhanced Button Styling with 3D Effect */
     .stButton > button {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: #ffffff;
-        border: none;
-        padding: 1rem 3rem;
-        font-size: 1.2rem;
-        font-weight: 700;
-        border-radius: 50px;
-        box-shadow: 0 6px 25px 0 rgba(59, 130, 246, 0.6);
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 1.2rem 4rem !important;
+        font-size: 1.3rem !important;
+        font-weight: 800 !important;
+        border-radius: 50px !important;
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.7), 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .stButton > button::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+        transition: left 0.5s !important;
+    }
+    
+    .stButton > button:hover::before {
+        left: 100% !important;
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 10px 35px 0 rgba(59, 130, 246, 0.8);
-        background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        transform: translateY(-4px) scale(1.05) !important;
+        box-shadow: 0 15px 45px rgba(102, 126, 234, 0.9), 0 0 0 4px rgba(102, 126, 234, 0.3) !important;
+        background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%) !important;
     }
     
-    /* Metric Cards */
+    .stButton > button:active {
+        transform: translateY(-2px) scale(1.02) !important;
+    }
+    
+    /* Enhanced Metric Cards with Hover Effects */
     .metric-card {
-        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
-        border: 2px solid rgba(59, 130, 246, 0.5);
-        border-radius: 20px;
-        padding: 2rem;
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+        border: 2px solid rgba(102, 126, 234, 0.6);
+        border-radius: 25px;
+        padding: 2.5rem;
         text-align: center;
-        backdrop-filter: blur(15px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-        transition: all 0.3s ease;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        animation: gradient-move 3s linear infinite;
+    }
+    
+    @keyframes gradient-move {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
     }
     
     .metric-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
-        border-color: #3b82f6;
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.5);
+        border-color: #667eea;
     }
     
-    /* Sidebar Styling */
+    /* Enhanced Sidebar Styling */
     .css-1d391kg, [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0a0e27 0%, #0d1b2a 100%);
+        background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%) !important;
+        border-right: 2px solid rgba(102, 126, 234, 0.3);
     }
     
-    /* Section Headers */
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
+        color: #ffffff;
+    }
+    
+    /* Section Headers with Gradient */
     .section-header {
-        color: #93c5fd;
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin: 2rem 0 1rem 0;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid rgba(59, 130, 246, 0.5);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 2.5rem 0 1.5rem 0;
+        padding-bottom: 0.8rem;
+        border-bottom: 3px solid rgba(102, 126, 234, 0.6);
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
+        animation: fadeInUp 0.6s ease-out;
     }
     
-    /* Footer */
+    /* Footer with Enhanced Styling */
     .footer {
         text-align: center;
-        color: #718096;
-        padding: 2rem;
-        margin-top: 3rem;
-        border-top: 1px solid rgba(102, 126, 234, 0.2);
+        color: #94a3b8;
+        padding: 3rem;
+        margin-top: 4rem;
+        border-top: 2px solid rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, rgba(15, 12, 41, 0.8) 0%, rgba(36, 36, 62, 0.8) 100%);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
     }
     
-    /* Recommendations List */
+    /* Enhanced Recommendations List */
     .recommendations {
-        background: rgba(30, 41, 59, 0.8);
-        border-left: 5px solid #3b82f6;
-        padding: 2rem;
-        border-radius: 15px;
-        margin: 1rem 0;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+        border-left: 6px solid #667eea;
+        padding: 2.5rem;
+        border-radius: 20px;
+        margin: 1.5rem 0;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        animation: slideIn 0.6s ease-out;
     }
     
     .recommendations li {
         color: #ffffff;
-        margin: 1rem 0;
-        font-size: 1.05rem;
-        line-height: 1.6;
+        margin: 1.2rem 0;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        font-weight: 500;
+        padding-left: 1rem;
+    }
+    
+    .recommendations li:hover {
+        color: #c7d2fe;
+        transform: translateX(5px);
+        transition: all 0.3s ease;
     }
     
     /* Hide Streamlit Branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* Scrollbar Styling */
+    /* Enhanced Scrollbar Styling */
     ::-webkit-scrollbar {
-        width: 12px;
+        width: 14px;
     }
     
     ::-webkit-scrollbar-track {
-        background: #0f172a;
+        background: #0f0c29;
+        border-radius: 10px;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 10px;
-        border: 2px solid #0f172a;
+        border: 3px solid #0f0c29;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
     }
     
     /* Global Text Styling */
     div[data-testid="stMarkdownContainer"] p {
         color: #ffffff;
+        font-weight: 400;
     }
     
     div[data-testid="stMarkdownContainer"] h1,
@@ -236,7 +363,41 @@ st.markdown("""
     div[data-testid="stMarkdownContainer"] h3,
     div[data-testid="stMarkdownContainer"] h4 {
         color: #ffffff;
+        font-weight: 700;
     }
+    
+    /* Card Container */
+    .info-card {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1rem 0;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .info-card:hover {
+        border-color: #667eea;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    /* Expander Styling */
+    .streamlit-expanderHeader {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
+        border: 2px solid rgba(102, 126, 234, 0.5) !important;
+        border-radius: 15px !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        border-color: #667eea !important;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3) !important;
+    }
+    
     </style>
 """, unsafe_allow_html=True)
 
@@ -280,49 +441,85 @@ def load_shap_explainer(_model, _scaler):
 model, scaler = load_model()
 shap_explainer, background_data = load_shap_explainer(model, scaler)
 
-# Header
-st.markdown('<h1 class="main-header">🏥 DIABETES PREDICTION SYSTEM</h1>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Advanced ML-Powered Risk Assessment using XGBoost & ADASYN</p>', unsafe_allow_html=True)
+# Header with Enhanced Design
+st.markdown('<h1 class="main-header">🩺 DIABETESAI PREDICTION SYSTEM</h1>', unsafe_allow_html=True)
+st.markdown('<p class="subtitle">🤖 Advanced ML-Powered Risk Assessment • XGBoost + ADASYN • AI Explainability</p>', unsafe_allow_html=True)
 
-# Sidebar info
+# Sidebar info with Enhanced Design
 with st.sidebar:
-    st.markdown("### 📊 Model Intelligence")
+    st.markdown("### 🎯 Model Intelligence Dashboard")
     st.markdown("---")
+    
+    # Add a cool header card
+    st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+                    border: 2px solid rgba(102, 126, 234, 0.5); border-radius: 15px; padding: 1.5rem;
+                    text-align: center; margin-bottom: 1.5rem;">
+            <h2 style="color: #667eea; margin: 0; font-size: 1.8rem;">⚡ AI-Powered</h2>
+            <p style="color: #c7d2fe; margin: 0.5rem 0 0 0;">Real-time Predictions</p>
+        </div>
+    """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Accuracy", "81%", delta="High")
+        st.metric("🎯 Accuracy", "81%", delta="High", delta_color="normal")
     with col2:
-        st.metric("AUC Score", "0.84", delta="Excellent")
+        st.metric("📈 AUC Score", "0.84", delta="Excellent", delta_color="normal")
     
     st.markdown("---")
-    st.markdown("**🤖 Algorithm**")
-    st.info("XGBoost with ADASYN Balancing")
     
-    st.markdown("**📈 Training Data**")
-    st.success("971 Patient Samples")
+    st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+                    border-left: 4px solid #667eea; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+            <h4 style="color: #c7d2fe; margin: 0 0 0.5rem 0;">🤖 Algorithm</h4>
+            <p style="color: #ffffff; margin: 0; font-weight: 600;">XGBoost with ADASYN</p>
+        </div>
+    """, unsafe_allow_html=True)
     
-    st.markdown("**🌍 Datasets**")
-    st.write("• PIMA Indian Diabetes")
-    st.write("• RTML Bangladesh")
+    st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.15) 100%);
+                    border-left: 4px solid #22c55e; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+            <h4 style="color: #86efac; margin: 0 0 0.5rem 0;">📊 Training Data</h4>
+            <p style="color: #ffffff; margin: 0; font-weight: 600;">971 Patient Samples</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("**🌍 Datasets Used**")
+    st.markdown("""
+        <div style="background: rgba(30, 41, 59, 0.5); padding: 1rem; border-radius: 10px; margin: 0.5rem 0;">
+            <p style="margin: 0.3rem 0;">✓ PIMA Indian Diabetes</p>
+            <p style="margin: 0.3rem 0;">✓ RTML Bangladesh</p>
+        </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("---")
-    st.markdown("**🎯 Features**")
-    st.write("✓ Real-time Predictions")
-    st.write("✓ Clinical Recommendations")
-    st.write("✓ Risk Assessment")
-    st.write("✓ Confidence Scoring")
+    st.markdown("**✨ Key Features**")
+    st.markdown("""
+        <div style="background: rgba(30, 41, 59, 0.5); padding: 1rem; border-radius: 10px;">
+            <p style="margin: 0.4rem 0;">🔮 Real-time Predictions</p>
+            <p style="margin: 0.4rem 0;">📋 Clinical Recommendations</p>
+            <p style="margin: 0.4rem 0;">🎯 Risk Assessment</p>
+            <p style="margin: 0.4rem 0;">💯 Confidence Scoring</p>
+            <p style="margin: 0.4rem 0;">🔬 AI Explainability (SHAP)</p>
+        </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("---")
-    st.warning("⚕️ For educational purposes only. Consult healthcare professionals.")
+    st.warning("⚕️ Educational purposes only.\nConsult healthcare professionals.")
 
-# Main content
+# Main content with enhanced styling
 st.markdown('<h2 class="section-header">📝 Patient Data Input</h2>', unsafe_allow_html=True)
+st.markdown('<p style="text-align: center; color: #c7d2fe; margin-bottom: 2rem; font-size: 1.1rem;">Enter patient information for diabetes risk assessment</p>', unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
+col1, col2 = st.columns(2, gap="large")
 
 with col1:
-    st.markdown("#### 👤 Personal Information")
+    st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                    border: 2px solid rgba(102, 126, 234, 0.4); border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem;">
+            <h3 style="color: #c7d2fe; text-align: center; margin: 0;">👤 Personal Information</h3>
+        </div>
+    """, unsafe_allow_html=True)
     
     pregnancies = st.number_input(
         "🤰 Number of Pregnancies",
@@ -357,7 +554,12 @@ with col1:
     )
 
 with col2:
-    st.markdown("#### 🔬 Clinical Measurements")
+    st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                    border: 2px solid rgba(102, 126, 234, 0.4); border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem;">
+            <h3 style="color: #c7d2fe; text-align: center; margin: 0;">🔬 Clinical Measurements</h3>
+        </div>
+    """, unsafe_allow_html=True)
     
     insulin = st.number_input(
         "💉 Insulin Level (μU/mL)",
