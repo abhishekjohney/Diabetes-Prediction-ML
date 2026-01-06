@@ -2,8 +2,15 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-import shap
 import matplotlib.pyplot as plt
+
+# Try to import shap, make it optional
+try:
+    import shap
+    SHAP_AVAILABLE = True
+except ImportError:
+    SHAP_AVAILABLE = False
+    st.warning("⚠️ SHAP library not available. Model explainability features will be disabled.")
 
 # Page configuration
 st.set_page_config(
@@ -250,6 +257,9 @@ def load_model():
 @st.cache_resource
 def load_shap_explainer(_model, _scaler):
     """Load background data and create SHAP explainer"""
+    if not SHAP_AVAILABLE:
+        return None, None
+    
     # Load diabetes dataset for background
     try:
         df = pd.read_csv('diabetes.csv')
@@ -502,7 +512,7 @@ if predict_button:
         """, unsafe_allow_html=True)
     
     # SHAP Explainability Section
-    if shap_explainer is not None:
+    if SHAP_AVAILABLE and shap_explainer is not None:
         st.markdown("---")
         st.markdown('<h2 class="section-header">🔬 AI Explainability - Why This Prediction?</h2>', unsafe_allow_html=True)
         st.markdown('<p style="color: #cbd5e1; text-align: center; margin-bottom: 2rem;">Understanding which features influenced this prediction using SHAP</p>', unsafe_allow_html=True)
