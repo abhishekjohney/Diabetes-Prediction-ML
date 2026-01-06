@@ -271,7 +271,7 @@ def load_shap_explainer(_model, _scaler):
         background_scaled = _scaler.transform(background)
         
         # Create TreeExplainer with interventional feature perturbation
-        explainer = shap.TreeExplainer(_model, background_scaled, feature_perturbation='interventional')
+        explainer = shap.TreeExplainer(_model, background_scaled, feature_perturbation='interventional', model_output='raw')
         return explainer, background_scaled
     except Exception as e:
         st.error(f"Error loading SHAP explainer: {e}")
@@ -521,7 +521,7 @@ if predict_button:
             try:
                 # Calculate SHAP values for this prediction
                 # For binary classification, shap_values returns values for the positive class
-                shap_values_raw = shap_explainer.shap_values(input_scaled)
+                shap_values_raw = shap_explainer.shap_values(input_scaled, check_additivity=False)
                 
                 # Handle both single array and list of arrays output
                 if isinstance(shap_values_raw, list):
