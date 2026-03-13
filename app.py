@@ -560,7 +560,7 @@ model, scaler = load_model()
 shap_explainer, background_data = load_shap_explainer(model, scaler)
 
 # Header with Enhanced Design
-st.markdown('<h1 class="main-header">🩺 DIABETESAI PREDICTION SYSTEM</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">🩺 DIABETES PREDICTION SYSTEM</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">🤖 Advanced ML-Powered Risk Assessment • XGBoost + ADASYN • AI Explainability</p>', unsafe_allow_html=True)
 
 # Sidebar info with Enhanced Design
