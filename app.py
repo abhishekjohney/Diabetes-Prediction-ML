@@ -53,19 +53,21 @@ st.markdown("""
     
     /* Header Styling with Enhanced Animation */
     .main-header {
-        font-size: 4rem;
+        font-size: clamp(1.9rem, 4.8vw, 4rem);
         font-weight: 900;
         color: #ffffff;
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         animation: gradient-shift 3s ease infinite, float 3s ease-in-out infinite;
-        letter-spacing: 3px;
+        letter-spacing: clamp(0.5px, 0.35vw, 3px);
         text-transform: uppercase;
         position: relative;
+        line-height: 1.15;
+        word-break: break-word;
     }
     
     @keyframes gradient-shift {
@@ -87,11 +89,13 @@ st.markdown("""
     .subtitle {
         text-align: center;
         color: #c7d2fe;
-        font-size: 1.4rem;
-        margin-bottom: 3rem;
+        font-size: clamp(0.95rem, 2vw, 1.4rem);
+        margin-bottom: 2rem;
         font-weight: 500;
-        letter-spacing: 2px;
+        letter-spacing: clamp(0.3px, 0.2vw, 2px);
         animation: fadeInUp 1s ease-out;
+        line-height: 1.5;
+        padding: 0 0.5rem;
     }
     
     @keyframes fadeInUp {
@@ -107,7 +111,7 @@ st.markdown("""
     
     /* Prediction Box Styling with Enhanced Effects */
     .prediction-box {
-        padding: 3rem;
+        padding: clamp(1rem, 3vw, 3rem);
         border-radius: 30px;
         margin: 2rem 0;
         backdrop-filter: blur(20px);
@@ -172,7 +176,8 @@ st.markdown("""
         color: #ffffff !important;
         border: 2px solid rgba(102, 126, 234, 0.6) !important;
         border-radius: 15px !important;
-        padding: 1rem !important;
+        padding: 0.85rem 1rem !important;
+        min-height: 48px !important;
         font-weight: 600 !important;
         font-size: 1rem !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -207,14 +212,16 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: #ffffff !important;
         border: none !important;
-        padding: 1.2rem 4rem !important;
-        font-size: 1.3rem !important;
+        padding: 0.9rem 1.5rem !important;
+        min-height: 52px !important;
+        width: 100% !important;
+        font-size: clamp(0.95rem, 1.9vw, 1.2rem) !important;
         font-weight: 800 !important;
         border-radius: 50px !important;
         box-shadow: 0 8px 30px rgba(102, 126, 234, 0.7), 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         text-transform: uppercase !important;
-        letter-spacing: 2px !important;
+        letter-spacing: 1px !important;
         position: relative !important;
         overflow: hidden !important;
     }
@@ -249,7 +256,7 @@ st.markdown("""
         background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
         border: 2px solid rgba(102, 126, 234, 0.6);
         border-radius: 25px;
-        padding: 2.5rem;
+        padding: clamp(1rem, 2.5vw, 2.5rem);
         text-align: center;
         backdrop-filter: blur(20px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -296,14 +303,15 @@ st.markdown("""
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        font-size: 2rem;
+        font-size: clamp(1.2rem, 3vw, 2rem);
         font-weight: 700;
-        margin: 2.5rem 0 1.5rem 0;
+        margin: 1.5rem 0 1rem 0;
         padding-bottom: 0.8rem;
         border-bottom: 3px solid rgba(102, 126, 234, 0.6);
         text-transform: uppercase;
-        letter-spacing: 3px;
+        letter-spacing: clamp(0.5px, 0.2vw, 2px);
         animation: fadeInUp 0.6s ease-out;
+        line-height: 1.3;
     }
     
     /* Footer with Enhanced Styling */
@@ -421,6 +429,86 @@ st.markdown("""
     .streamlit-expanderHeader:hover {
         border-color: #667eea !important;
         box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3) !important;
+    }
+
+    /* Better desktop spacing */
+    .block-container {
+        padding-top: 1.5rem !important;
+        padding-bottom: 2rem !important;
+        max-width: 1200px;
+    }
+
+    /* Tablet + Mobile responsive behavior */
+    @media (max-width: 992px) {
+        .block-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            max-width: 100%;
+        }
+
+        .metric-card:hover,
+        .stButton > button:hover,
+        .info-card:hover {
+            transform: none !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .main-header {
+            margin-top: 0.25rem;
+            text-align: left;
+        }
+
+        .subtitle {
+            text-align: left;
+            margin-bottom: 1.25rem;
+            padding: 0;
+        }
+
+        .prediction-box {
+            border-radius: 18px;
+            margin: 1rem 0;
+        }
+
+        .metric-card,
+        .info-card,
+        .recommendations {
+            border-radius: 14px;
+            padding: 1rem;
+        }
+
+        .section-header {
+            margin-top: 1.1rem;
+            padding-bottom: 0.45rem;
+            border-bottom-width: 2px;
+        }
+
+        .stNumberInput label {
+            font-size: 0.9rem !important;
+            letter-spacing: 0.2px;
+            text-transform: none;
+        }
+
+        .stButton > button {
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            text-transform: none !important;
+        }
+
+        /* Reduce heavy motion on smaller devices */
+        .main-header,
+        .subtitle,
+        .prediction-box,
+        .metric-card,
+        .recommendations {
+            animation: none !important;
+        }
+
+        .prediction-box::before,
+        .metric-card::before,
+        .stButton > button::before {
+            display: none !important;
+        }
     }
     
     </style>
