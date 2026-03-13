@@ -345,9 +345,17 @@ st.markdown("""
         transition: all 0.3s ease;
     }
     
-    /* Hide Streamlit Branding */
+    /* Hide Streamlit Branding / Host UI */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    header {visibility: hidden;}
+    [data-testid="stToolbar"] {display: none !important;}
+    [data-testid="stStatusWidget"] {display: none !important;}
+    [data-testid="stDecoration"] {display: none !important;}
+    [data-testid="stFloatingButton"] {display: none !important;}
+    [data-testid="stProfileAvatar"] {display: none !important;}
+    .viewerBadge_container__1QSob {display: none !important;}
+    .stDeployButton {display: none !important;}
     
     /* Enhanced Scrollbar Styling */
     ::-webkit-scrollbar {
