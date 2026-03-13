@@ -12,3 +12,6 @@ gatherUsageStats = false
 [server]
 # Automatically reload when files change
 fileWatcherType = "auto"
+
+[ui]
+hideTopBar = true

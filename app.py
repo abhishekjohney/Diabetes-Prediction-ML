@@ -41,6 +41,15 @@ st.markdown("""
         color: #ffffff;
         font-family: 'Inter', sans-serif;
     }
+
+    /* Hide Streamlit default UI chrome */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    [data-testid="stToolbar"] {display: none !important;}
+    [data-testid="stStatusWidget"] {display: none !important;}
+    [data-testid="stDecoration"] {display: none !important;}
+    .viewerBadge_container__1QSob {display: none !important;}
     
     /* Header Styling with Enhanced Animation */
     .main-header {
