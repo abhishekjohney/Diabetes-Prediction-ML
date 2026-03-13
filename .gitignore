@@ -31,6 +31,8 @@ env/
 
 # Model Files (too large for git - regenerate with save_model.py)
 *.pkl
+!diabetes_model.pkl
+!scaler.pkl
 
 # IDE
 .vscode/
