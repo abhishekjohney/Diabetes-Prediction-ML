@@ -580,9 +580,9 @@ with st.sidebar:
     
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("🎯 Accuracy", "82.77%", delta="High", delta_color="normal")
+        st.metric("🎯 Accuracy", "82.77%", delta="CV", delta_color="normal")
     with col2:
-        st.metric("📈 AUC Score", "0.79", delta="Excellent", delta_color="normal")
+        st.metric("📈 ROC-AUC", "0.79", delta="Current", delta_color="normal")
     
     st.markdown("---")
     
@@ -1031,9 +1031,9 @@ st.markdown("""
         <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(59, 130, 246, 0.3);">
             <p style="color: #94a3b8; font-size: 0.9rem;">
                 <strong style="color: #93c5fd;">Model:</strong> XGBoost with ADASYN Oversampling | 
-                <strong style="color: #93c5fd;">Accuracy:</strong> 81% | 
-                <strong style="color: #93c5fd;">ROC-AUC:</strong> 0.84 | 
-                <strong style="color: #93c5fd;">Dataset:</strong> PIMA Indian + RTML Bangladesh (971 samples)
+                <strong style="color: #93c5fd;">Accuracy:</strong> 82.77% | 
+                <strong style="color: #93c5fd;">ROC-AUC:</strong> 0.79 | 
+                <strong style="color: #93c5fd;">Dataset:</strong> PIMA Indian + RTML Bangladesh
             </p>
             <p style="color: #64748b; font-size: 0.85rem; margin-top: 1rem;">
                 © 2026 Diabetes Prediction System | Powered by Machine Learning

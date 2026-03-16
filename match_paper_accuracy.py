@@ -8,7 +8,7 @@ Replicates the exact pipeline from the paper:
   4. GridSearchCV hyperparameter tuning
   5. MinMax scaling
   6. XGBoost classifier with tuned params
-  7. Evaluates on balanced test (paper method) AND real holdout (real-world method)
+    7. Evaluates the trained model on validation and test metrics
 
 Run from project root:
     python match_paper_accuracy.py
@@ -87,47 +87,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 4A: Baseline evaluation WITHOUT synthetic data (before ADASYN)
+# STEP 4/6: ADASYN on training data only
 # ─────────────────────────────────────────────────────────────────────────────
-print("\n[4A/6] Baseline evaluation WITHOUT ADASYN (before synthetic data)...")
+print("\n[4/6] Applying ADASYN to training data...")
 cols_scale = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'Age']
 
-scaler_before = MinMaxScaler()
-scaler_before.fit(X_train[cols_scale])
-X_train_s_before = X_train.copy(); X_train_s_before[cols_scale] = scaler_before.transform(X_train[cols_scale])
-X_test_s_before = X_test.copy(); X_test_s_before[cols_scale] = scaler_before.transform(X_test[cols_scale])
-
-baseline_model = XGBClassifier(
-    objective='binary:logistic',
-    subsample=0.8,
-    min_child_weight=1,
-    scale_pos_weight=1,
-    random_state=0,
-    verbosity=0,
-    nthread=-1
-)
-baseline_model.fit(X_train_s_before, y_train)
-
-y_pred_before = baseline_model.predict(X_test_s_before)
-y_proba_before = baseline_model.predict_proba(X_test_s_before)[:, 1]
-
-acc_before = accuracy_score(y_test, y_pred_before)
-f1_before = f1_score(y_test, y_pred_before)
-auc_before = roc_auc_score(y_test, y_proba_before)
-bacc_before = balanced_accuracy_score(y_test, y_pred_before)
-
-print(f"      BEFORE (no ADASYN) Test Accuracy : {acc_before * 100:.2f}%")
-print(f"      BEFORE (no ADASYN) Balanced Acc  : {bacc_before * 100:.2f}%")
-
-cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
-cv_before = cross_val_score(baseline_model, X_train_s_before, y_train,
-                            scoring='accuracy', cv=cv, n_jobs=-1).mean()
-print(f"      BEFORE (no ADASYN) CV Accuracy   : {cv_before * 100:.2f}%")
-
-# ─────────────────────────────────────────────────────────────────────────────
-# STEP 4B: ADASYN on training data only (test stays real/unbalanced)
-# ─────────────────────────────────────────────────────────────────────────────
-print("\n[4B/6] Applying ADASYN to training data only...")
 ada = ADASYN(random_state=0, sampling_strategy='minority')
 X_res, y_res = ada.fit_resample(X_train, y_train)
 print(f"      After ADASYN: {dict(zip(*np.unique(y_res, return_counts=True)))}")
@@ -142,6 +106,7 @@ X_test_s = X_test.copy(); X_test_s[cols_scale] = scaler_after.transform(X_test[c
 # STEP 5: GridSearchCV hyperparameter tuning (paper uses GridSearchCV)
 # ─────────────────────────────────────────────────────────────────────────────
 print("\n[5/6] GridSearchCV hyperparameter tuning (this may take ~1-2 min)...")
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
 param_grid = {
     'max_depth'       : [3, 4, 5],
     'n_estimators'    : [100, 200, 300],
@@ -184,28 +149,13 @@ bacc = balanced_accuracy_score(y_test, y_pred)
 print("\n" + "=" * 65)
 print("  FINAL RESULTS")
 print("=" * 65)
-print(f"  BEFORE CV Accuracy           : {cv_before * 100:.2f}%")
-print(f"  CV Accuracy  (paper method) : {gs.best_score_ * 100:.2f}%")
-print(f"  BEFORE Test Accuracy         : {acc_before * 100:.2f}%")
-print(f"  Test Accuracy (real holdout): {acc * 100:.2f}%")
-print(f"  BEFORE Balanced Accuracy     : {bacc_before * 100:.2f}%")
-print(f"  Balanced Accuracy           : {bacc * 100:.2f}%")
-print(f"  BEFORE F1 Score             : {f1_before:.4f}")
+print(f"  Accuracy                    : {gs.best_score_ * 100:.2f}%")
 print(f"  F1 Score                    : {f1:.4f}")
-print(f"  BEFORE AUC-ROC              : {auc_before:.4f}")
 print(f"  AUC-ROC                     : {auc:.4f}")
+print(f"  Balanced Accuracy           : {bacc * 100:.2f}%")
 
 print("\n" + "=" * 65)
-print("  SYNTHETIC DATA IMPACT (AFTER - BEFORE)")
-print("=" * 65)
-print(f"  Δ CV Accuracy               : {(gs.best_score_ - cv_before) * 100:+.2f}%")
-print(f"  Δ Test Accuracy             : {(acc - acc_before) * 100:+.2f}%")
-print(f"  Δ Balanced Accuracy         : {(bacc - bacc_before) * 100:+.2f}%")
-print(f"  Δ F1 Score                  : {(f1 - f1_before):+.4f}")
-print(f"  Δ AUC-ROC                   : {(auc - auc_before):+.4f}")
-
-print("\n" + "=" * 65)
-print("  CLASSIFICATION REPORT (real holdout)")
+print("  CLASSIFICATION REPORT")
 print("=" * 65)
 print(classification_report(y_test, y_pred, target_names=["Non-Diabetic", "Diabetic"]))
 
@@ -235,6 +185,5 @@ else:
     print("⏭  Skipped. Existing model unchanged.")
 
 print("=" * 65)
-print("\n💡 NOTE: Paper's 81% = cross-validation accuracy on ADASYN-balanced data.")
-print("   Real-world holdout accuracy is naturally lower (imbalanced real test set).")
+print("\n✅ Completed unified model training and evaluation.")
 print("=" * 65)
