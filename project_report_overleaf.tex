@@ -1,0 +1,435 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{multirow}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdftitle={Diabetes Prediction Using Machine Learning},
+    pdfauthor={Abhishek Johney}
+}
+
+\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Diabetes Prediction Using Machine Learning}
+\fancyhead[R]{\thepage}
+
+\titleformat{\chapter}[display]
+{\bfseries\Large}
+{\chaptername\ \thechapter}{0.5em}{\Large}
+
+\begin{document}
+
+% ---------------------------
+% COVER PAGE
+% ---------------------------
+\begin{titlepage}
+    \centering
+    \thispagestyle{empty}
+    \vspace*{1.0cm}
+
+    % Uncomment and set correct path for college logo if available
+    % \includegraphics[width=2.3cm]{logo.png}\\[0.45cm]
+
+    {\Huge \textbf{Main Project Report}}\\[0.15cm]
+    {\Large \textit{on}}\\[0.15cm]
+    {\LARGE \textbf{Diabetes Prediction Using Machine Learning}}\\[0.25cm]
+    {\large AI-Powered Diabetes Risk Prediction and Early-Warning Support Platform}\\[0.45cm]
+
+    {\Large \textit{Submitted in partial  fulfilment for the award of degree}}\\[0.2cm]
+    {\Large \textit{Of}}\\[0.2cm]
+    {\Large \textbf{Bachelor of Technology}}\\[0.2cm]
+    {\Large \textit{in}}\\[0.2cm]
+    {\Large \textbf{COMPUTER SCIENCE AND ENGINEERING}}\\[0.2cm]
+    {\Large \textit{Of}}\\[0.2cm]
+    {\Large \textbf{(COLLEGE / UNIVERSITY NAME)}}\\[0.45cm]
+
+    {\Large Submitted by:}\\[0.2cm]
+    {\large \textbf{Abhishek Johney}}\\
+    {\large Roll No: \underline{\hspace{3.5cm}}}\\
+    {\large Reg. No: \underline{\hspace{3.5cm}}}\\[0.35cm]
+
+    {\Large \textit{Under the guidance}}\\[0.05cm]
+    {\Large \textit{Of}}\\[0.05cm]
+    {\Large \textbf{Dr. Jabir}}\\
+    {\large \textit{Project Guide}}\\[0.35cm]
+
+    {\Large \textbf{Department of Computer Science and Engineering}}\\
+    {\Large \textbf{(Division / School Name)}}\\
+    {\Large \textbf{(City - PIN)}}\\[0.55cm]
+
+    {\large Academic Year: 2025--2026}
+\end{titlepage}
+
+% ---------------------------
+% CERTIFICATE PAGE
+% ---------------------------
+\chapter*{Certificate}
+\addcontentsline{toc}{chapter}{Certificate}
+
+This is to certify that the project work entitled \textbf{\textit{"Diabetes Prediction Using Machine Learning"}} is a bonafide work carried out by \textbf{Abhishek Johney}, Roll No. \underline{\hspace{2cm}}, in partial fulfillment of the requirements for the award of the degree of \textbf{Bachelor of Technology / Bachelor of Engineering in Computer Science and Engineering}, under my supervision and guidance during the academic year \textbf{2025--2026}.
+
+The work embodied in this report has not been submitted, in part or full, to any other University/Institute for the award of any degree or diploma.
+
+\vspace{2cm}
+
+\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+\textbf{Project Guide} & \textbf{Head of Department} \\
+(Signature) & (Signature) \\
+Name: \underline{\hspace{4cm}} & Name: \underline{\hspace{4cm}} \\
+Date: \underline{\hspace{3cm}} & Date: \underline{\hspace{3cm}} \\
+\end{tabular}
+
+\vspace{2cm}
+
+\textbf{External Examiner}\\
+(Signature)\\
+Name: \underline{\hspace{5cm}}\\
+Date: \underline{\hspace{3cm}}
+
+\newpage
+
+% ---------------------------
+% DECLARATION (optional but standard)
+% ---------------------------
+\chapter*{Declaration}
+\addcontentsline{toc}{chapter}{Declaration}
+
+I hereby declare that the project report entitled \textbf{\textit{"Diabetes Prediction Using Machine Learning"}} submitted by me is an original work carried out under the guidance of my project supervisor. The content of this report has not been submitted previously, in whole or in part, for the award of any degree, diploma, or fellowship at any institution.
+
+\vspace{2cm}
+\textbf{Student Name:} Abhishek Johney\\
+\textbf{Roll No:} \underline{\hspace{4cm}}\\
+\textbf{Date:} \underline{\hspace{4cm}}\\
+\textbf{Place:} \underline{\hspace{4cm}}
+
+\newpage
+
+% ---------------------------
+% ACKNOWLEDGEMENT
+% ---------------------------
+\chapter*{Acknowledgement}
+\addcontentsline{toc}{chapter}{Acknowledgement}
+
+I express my sincere gratitude to my project guide, \textbf{(Guide Name)}, for continuous guidance, valuable suggestions, and encouragement throughout this project.
+
+I am thankful to the \textbf{Head of the Department}, faculty members, and staff of \textbf{(Department Name)} for providing the required academic and technical support.
+
+I also wish to thank my friends and classmates for their support, feedback, and motivation during the development and evaluation of this work.
+
+Finally, I am deeply grateful to my family for their constant encouragement and support.
+
+\vspace{2cm}
+\begin{flushright}
+\textbf{Abhishek Johney}
+\end{flushright}
+
+\newpage
+
+% ---------------------------
+% ABSTRACT
+% ---------------------------
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+Diabetes is one of the most common chronic diseases and early risk assessment can significantly support timely medical intervention. This project presents a machine learning based diabetes prediction system built by combining two datasets: the PIMA Indian Diabetes dataset and an RTML Bangladesh dataset. The system performs data preprocessing, missing value handling, feature scaling, class balancing, and model optimization.
+
+A complete prediction pipeline is implemented using \textbf{XGBoost} with \textbf{ADASYN} oversampling and \textbf{GridSearchCV} for hyperparameter tuning. The final model is deployed through an interactive \textbf{Streamlit} web application that accepts patient inputs and provides risk predictions. To ensure model transparency, \textbf{SHAP (SHapley Additive exPlanations)} is integrated for feature-level reasoning.
+
+The developed system achieves an accuracy of approximately \textbf{82.77\%} and ROC-AUC of \textbf{0.79}, demonstrating good predictive capability. The project highlights how explainable machine learning can support educational and screening-level decision support while emphasizing that clinical diagnosis must remain with healthcare professionals.
+
+\newpage
+
+% ---------------------------
+% TOC / LISTS
+% ---------------------------
+\tableofcontents
+\newpage
+\listoftables
+\newpage
+\listoffigures
+\newpage
+
+% ---------------------------
+% CHAPTER 1
+% ---------------------------
+\chapter{Introduction}
+
+\section{Background}
+Diabetes mellitus is a metabolic disorder characterized by elevated blood glucose levels due to insufficient insulin production, insulin resistance, or both. Late diagnosis can lead to severe complications such as cardiovascular disease, kidney damage, retinopathy, and neuropathy. Early-stage risk detection through data-driven systems can support preventive healthcare.
+
+\section{Problem Statement}
+Traditional diabetes screening methods may be time-consuming, expensive, or less accessible for regular monitoring. There is a need for a lightweight, fast, and interpretable risk prediction system that can use common clinical features to estimate the likelihood of diabetes.
+
+\section{Objectives}
+\begin{itemize}[leftmargin=1.2cm]
+    \item Build a robust machine learning pipeline for diabetes risk prediction.
+    \item Combine and preprocess multi-source datasets to improve data coverage.
+    \item Handle class imbalance to improve minority class detection.
+    \item Tune model hyperparameters for better generalization.
+    \item Deploy the model using Streamlit for real-time predictions.
+    \item Add explainability using SHAP for transparent predictions.
+\end{itemize}
+
+\section{Scope}
+The project focuses on binary diabetes risk classification using structured tabular inputs. It is intended for academic and educational use, not for direct clinical diagnosis.
+
+% ---------------------------
+% CHAPTER 2
+% ---------------------------
+\chapter{Literature Review}
+
+\section{Machine Learning in Healthcare}
+Machine learning has become widely used in healthcare for diagnosis support, risk stratification, and personalized treatment planning. Supervised learning methods such as logistic regression, decision trees, random forests, SVM, and gradient boosting are commonly applied to disease prediction tasks.
+
+\section{Diabetes Prediction Studies}
+Several studies show that models trained on demographic and clinical features (such as glucose, BMI, blood pressure, insulin, age) can provide useful prediction performance. Ensemble-based methods, especially gradient boosting models, often outperform linear models when complex nonlinear relationships are present.
+
+\section{Need for Explainability}
+A major limitation of black-box models is low interpretability. Explainable AI methods such as SHAP make model behavior understandable by quantifying each feature’s contribution toward a prediction. This is essential in healthcare-related applications.
+
+% ---------------------------
+% CHAPTER 3
+% ---------------------------
+\chapter{Dataset Description and Preprocessing}
+
+\section{Datasets Used}
+The project uses two data sources:
+\begin{enumerate}[leftmargin=1.2cm]
+    \item \textbf{PIMA Indian Diabetes Dataset} (primary clinical dataset).
+    \item \textbf{RTML Bangladesh Dataset} (additional contextual population data).
+\end{enumerate}
+
+\section{Selected Features}
+The final model uses seven features:
+\begin{itemize}[leftmargin=1.2cm]
+    \item Pregnancies
+    \item Glucose
+    \item BloodPressure
+    \item SkinThickness
+    \item Insulin
+    \item BMI
+    \item Age
+\end{itemize}
+
+The target variable is \textbf{Outcome} (0 = Non-diabetic, 1 = Diabetic).
+
+\section{Data Cleaning}
+Some medical fields contain zeros that represent missing/invalid values. To address this, zero-imputation is performed on selected columns using the mean of non-zero values:
+\begin{itemize}[leftmargin=1.2cm]
+    \item Glucose
+    \item BloodPressure
+    \item SkinThickness
+    \item Insulin
+    \item BMI
+\end{itemize}
+
+\section{Feature Scaling}
+Min-Max scaling is applied so every feature lies in the range $[0,1]$:
+\[
+x_{scaled} = \frac{x - x_{min}}{x_{max} - x_{min}}
+\]
+
+\section{Class Imbalance Handling}
+Since diabetic and non-diabetic instances are not perfectly balanced, \textbf{ADASYN} oversampling is used on the training split to improve minority class learning.
+
+% ---------------------------
+% CHAPTER 4
+% ---------------------------
+\chapter{Methodology and System Design}
+
+\section{Overall Pipeline}
+The end-to-end pipeline is:
+\begin{enumerate}[leftmargin=1.2cm]
+    \item Load and clean datasets.
+    \item Perform feature engineering and column alignment.
+    \item Split into training and testing sets.
+    \item Apply ADASYN on training data.
+    \item Scale features using MinMaxScaler.
+    \item Train XGBoost model.
+    \item Tune hyperparameters using GridSearchCV.
+    \item Evaluate model on unseen test data.
+    \item Save model and scaler as deployment artifacts.
+\end{enumerate}
+
+\section{Model Selection}
+\textbf{XGBoost Classifier} is selected because:
+\begin{itemize}[leftmargin=1.2cm]
+    \item It handles nonlinear feature interactions effectively.
+    \item It offers strong performance on tabular data.
+    \item It is robust to noisy patterns and supports regularization.
+\end{itemize}
+
+\section{Hyperparameter Optimization}
+\textbf{GridSearchCV} with stratified k-fold cross-validation is used to search the best hyperparameter combination. Stratification preserves class distribution in each fold, giving stable evaluation.
+
+\section{Explainable AI Integration}
+SHAP TreeExplainer is used to explain prediction behavior:
+\begin{itemize}[leftmargin=1.2cm]
+    \item Positive SHAP value: pushes prediction toward diabetic.
+    \item Negative SHAP value: pushes prediction toward non-diabetic.
+    \item Absolute SHAP magnitude: strength of impact.
+\end{itemize}
+
+% ---------------------------
+% CHAPTER 5
+% ---------------------------
+\chapter{Implementation Details}
+
+\section{Development Environment}
+\begin{itemize}[leftmargin=1.2cm]
+    \item Language: Python
+    \item Libraries: pandas, numpy, scikit-learn, xgboost, imbalanced-learn, shap, streamlit, matplotlib
+    \item IDE/Editor: Visual Studio Code
+    \item Deployment Interface: Streamlit
+\end{itemize}
+
+\section{Project Files}
+\begin{longtable}{p{0.35\textwidth} p{0.55\textwidth}}
+\toprule
+\textbf{File Name} & \textbf{Purpose} \\
+\midrule
+\endhead
+\texttt{match\_paper\_accuracy.py} & Training pipeline, tuning, and model evaluation \\
+\texttt{app.py} & Streamlit web app for prediction and SHAP explanation \\
+\texttt{diabetes.csv} & Primary diabetes dataset (PIMA) \\
+\texttt{diabetes\_model.pkl} & Saved trained XGBoost model artifact \\
+\texttt{scaler.pkl} & Saved MinMaxScaler artifact \\
+\texttt{check\_feature\_importance.py} & Utility for feature-level importance checks \\
+\bottomrule
+\end{longtable}
+
+\section{Deployment Workflow}
+\begin{enumerate}[leftmargin=1.2cm]
+    \item Train model and save artifacts.
+    \item Load artifacts inside Streamlit app.
+    \item Accept user inputs from form.
+    \item Apply same preprocessing pipeline.
+    \item Predict class and confidence.
+    \item Generate SHAP explanation for user transparency.
+\end{enumerate}
+
+% ---------------------------
+% CHAPTER 6
+% ---------------------------
+\chapter{Results and Discussion}
+
+\section{Evaluation Metrics}
+The model is evaluated using:
+\begin{itemize}[leftmargin=1.2cm]
+    \item Accuracy
+    \item Precision
+    \item Recall
+    \item F1-Score
+    \item ROC-AUC
+    \item Balanced Accuracy
+\end{itemize}
+
+\section{Observed Performance}
+\begin{table}[H]
+\centering
+\caption{Model Performance Summary}
+\begin{tabular}{lc}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Accuracy & 82.77\% \\
+ROC-AUC & 0.79 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Interpretation}
+The model demonstrates good predictive capability for a tabular healthcare dataset. Integration of ADASYN improves sensitivity toward minority class predictions, while SHAP adds interpretability by presenting feature-level reasoning (for example, high glucose and elevated BMI generally increase diabetes risk).
+
+\section{Limitations}
+\begin{itemize}[leftmargin=1.2cm]
+    \item Dataset size and demographic diversity are limited.
+    \item Output is prediction support, not clinical diagnosis.
+    \item Performance may vary across hospitals/populations.
+\end{itemize}
+
+% ---------------------------
+% CHAPTER 7
+% ---------------------------
+\chapter{Conclusion and Future Scope}
+
+\section{Conclusion}
+This project successfully implements an end-to-end diabetes prediction system using machine learning and explainable AI. The system combines data preprocessing, class balancing, hyperparameter optimization, model deployment, and SHAP-based explanation in one practical framework. The achieved performance indicates that the approach is suitable for educational and decision-support contexts.
+
+\section{Future Scope}
+\begin{itemize}[leftmargin=1.2cm]
+    \item Increase dataset size with additional demographic groups.
+    \item Integrate longitudinal patient history and lab trends.
+    \item Compare with deep learning and ensemble stacking approaches.
+    \item Add clinician-focused interpretation dashboards.
+    \item Deploy as secure cloud API with authentication and logging.
+\end{itemize}
+
+% ---------------------------
+% REFERENCES
+% ---------------------------
+\chapter*{References}
+\addcontentsline{toc}{chapter}{References}
+
+\begin{enumerate}[leftmargin=1cm]
+    \item UCI Machine Learning Repository, "Pima Indians Diabetes Database." Available: \url{https://archive.ics.uci.edu/}
+    \item T. Chen and C. Guestrin, "XGBoost: A Scalable Tree Boosting System," \textit{Proc. KDD}, 2016.
+    \item N. V. Chawla et al., "ADASYN: Adaptive Synthetic Sampling Approach for Imbalanced Learning," \textit{IEEE IJCNN}, 2008.
+    \item S. M. Lundberg and S.-I. Lee, "A Unified Approach to Interpreting Model Predictions," \textit{NeurIPS}, 2017.
+    \item F. Pedregosa et al., "Scikit-learn: Machine Learning in Python," \textit{JMLR}, 2011.
+    \item Streamlit Documentation. Available: \url{https://docs.streamlit.io/}
+\end{enumerate}
+
+% ---------------------------
+% APPENDIX
+% ---------------------------
+\appendix
+\chapter{Sample Input Features}
+
+\begin{table}[H]
+\centering
+\caption{Typical Input Ranges Used in the Application}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Feature} & \textbf{Unit} & \textbf{Example Range} \\
+\midrule
+Pregnancies & count & 0--20 \\
+Glucose & mg/dL & 0--300 \\
+BloodPressure & mmHg & 0--200 \\
+SkinThickness & mm & 0--100 \\
+Insulin & $\mu$U/mL & 0--900 \\
+BMI & index & 0.0--70.0 \\
+Age & years & 1--120 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{Important Notes}
+\begin{itemize}[leftmargin=1.2cm]
+    \item This tool is strictly for educational/research use.
+    \item Predictions should be validated by licensed medical professionals.
+    \item Data preprocessing in deployment must exactly match training steps.
+\end{itemize}
+
+\end{document}
